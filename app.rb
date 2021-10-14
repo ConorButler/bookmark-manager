@@ -1,25 +1,31 @@
-require "sinatra/base"
-require "sinatra/reloader"
-require_relative "./lib/bookmark"
+require 'sinatra/base'
+require 'sinatra/reloader'
+require_relative './lib/bookmark'
 
 class BookmarkManager < Sinatra::Base
   configure :development do
     register Sinatra::Reloader
   end
 
-  get "/" do
+  enable :sessions, :method_override
+
+  get '/' do
     erb :index
   end
 
-  post "/submit" do
-    url, title = params[:url], params[:title]
-    Bookmark.create(url: url, title: title)
+  get '/bookmarks' do
+    @bookmarks = Bookmark.all
+    erb :'bookmarks/index'
+  end
+
+  post '/bookmarks' do
+    Bookmark.create(url: params[:url], title: params[:title])
     redirect('/bookmarks')
   end
 
-  get "/bookmarks" do
-    @bookmarks = Bookmark.all
-    erb :'bookmarks/index'
+  delete '/bookmarks/:id' do
+    Bookmark.delete(id: params[:id])
+    redirect('/bookmarks')
   end
   
   run! if app_file == $0

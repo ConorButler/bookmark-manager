@@ -6,7 +6,7 @@ gem "pg"
 gem "sinatra"
 gem "sinatra-contrib"
 gem "capybara", group: :test
-gem "webrick"
+gem "thin"
 #gem 'launchy'
 
 group :development, :test do
