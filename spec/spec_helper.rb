@@ -3,11 +3,12 @@ ENV["ENVIRONMENT"] = "test"
 
 require File.join(File.dirname(__FILE__), "..", "app.rb")
 
-require 'setup_test_database'
+#require 'setup_test_database'
+require 'database_connection_setup'
 
 RSpec.configure do |config|
   config.before(:each) do 
-    setup_test_database
+    database_connection_setup
   end
 end
 
